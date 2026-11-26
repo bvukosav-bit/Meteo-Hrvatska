@@ -1,0 +1,222 @@
+
+<!DOCTYPE html>
+<html lang="hr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10243c">
+<title>Meteo Hrvatska</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#0b1728;
+ color:#f4f7fb;
+}
+.app{max-width:650px;margin:auto;padding:20px}
+header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+.logo{font-size:20px;font-weight:bold;letter-spacing:1px}
+.logo span{color:#63b7ed}
+.tag{font-size:11px;color:#9db4ca;letter-spacing:2px;margin-top:5px}
+button,select{
+ background:#203750;color:white;border:1px solid #34516d;
+ border-radius:12px;padding:12px;font-size:15px;
+}
+select{width:100%;margin-bottom:18px}
+button{cursor:pointer}
+.hero{
+ background:linear-gradient(145deg,#244c70,#142b49);
+ border-radius:24px;padding:24px;margin-bottom:18px;
+ box-shadow:0 10px 30px #0003;
+}
+.city{font-size:25px;font-weight:bold}
+.date{color:#c1d5e8;font-size:13px;margin-top:6px}
+.main-weather{display:flex;align-items:center;justify-content:space-between;margin:20px 0}
+.temp{font-size:72px;font-weight:300;letter-spacing:-4px}
+.weather-icon{font-size:65px}
+.description{font-size:18px}
+.feels{color:#c1d5e8;font-size:13px;margin-top:7px}
+.details{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
+.detail{
+ background:#ffffff12;padding:13px 9px;border-radius:13px;
+}
+.detail-label{font-size:11px;color:#b8cce0}
+.detail-value{font-size:17px;font-weight:bold;margin-top:8px}
+.section{
+ background:#14243a;border-radius:20px;padding:18px;
+ margin-bottom:18px;
+}
+.section h2{font-size:17px;margin:0 0 16px}
+.hourly{display:flex;gap:17px;overflow-x:auto;padding-bottom:8px}
+.hour{text-align:center;min-width:57px}
+.hour small{color:#a9bfd4;font-size:12px}
+.hour .ico{font-size:25px;margin:12px 0}
+.hour strong{font-size:15px}
+.days{display:flex;flex-direction:column;gap:0}
+.day{
+ display:grid;grid-template-columns:1fr 35px 45px 65px;
+ align-items:center;gap:8px;padding:13px 0;
+ border-bottom:1px solid #ffffff12;
+}
+.day:last-child{border:0}
+.day-name{font-size:14px}
+.day-icon{font-size:23px;text-align:center}
+.day-temp{text-align:right;font-weight:bold}
+.day-rain{text-align:right;font-size:11px;color:#82c8ef}
+.muted{color:#9db4ca}
+.footer{text-align:center;color:#8299af;font-size:11px;padding:10px}
+.error{color:#ffb2a8;font-size:13px;line-height:1.5}
+.loading{text-align:center;padding:20px;color:#a9bfd4}
+.refresh{width:100%;margin-top:12px}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div>
+  <div class="logo">☀ METEO <span>HRVATSKA</span></div>
+  <div class="tag">VREMENSKA PROGNOZA</div>
+ </div>
+ <button onclick="loadWeather()">↻</button>
+</header>
+
+<select id="city" onchange="loadWeather()">
+ <option value="44.1194,15.2314">Zadar</option>
+ <option value="45.8150,15.9819">Zagreb</option>
+ <option value="43.5081,16.4402">Split</option>
+ <option value="45.3271,14.4422">Rijeka</option>
+ <option value="42.6507,18.0944">Dubrovnik</option>
+ <option value="45.3431,14.4092">Opatija</option>
+ <option value="45.5550,18.6955">Osijek</option>
+ <option value="44.8666,13.8496">Pula</option>
+ <option value="45.1603,18.0156">Slavonski Brod</option>
+ <option value="43.7350,15.8952">Šibenik</option>
+</select>
+
+<div id="content">
+ <div class="loading">Učitavanje meteoroloških podataka...</div>
+</div>
+
+<div class="footer">
+ Meteorološki podaci: Open-Meteo · Osobna aplikacija
+</div>
+</div>
+
+<script>
+const weatherTypes={
+ 0:["Vedro","☀️"],
+ 1:["Pretežno vedro","🌤️"],
+ 2:["Djelomice oblačno","⛅"],
+ 3:["Oblačno","☁️"],
+ 45:["Magla","🌫️"],
+ 48:["Magla","🌫️"],
+ 51:["Slaba rosulja","🌦️"],
+ 53:["Rosulja","🌦️"],
+ 55:["Jaka rosulja","🌧️"],
+ 61:["Slaba kiša","🌧️"],
+ 63:["Kiša","🌧️"],
+ 65:["Jaka kiša","🌧️"],
+ 71:["Slab snijeg","🌨️"],
+ 73:["Snijeg","🌨️"],
+ 75:["Jak snijeg","❄️"],
+ 80:["Pljuskovi","🌦️"],
+ 81:["Pljuskovi","🌧️"],
+ 82:["Jaki pljuskovi","⛈️"],
+ 95:["Grmljavina","⛈️"],
+ 96:["Grmljavina s tučom","⛈️"],
+ 99:["Jaka grmljavina","⛈️"]
+};
+
+function weather(code){
+ return weatherTypes[code]||["Promjenjivo","🌤️"];
+}
+
+function dayName(date,index){
+ if(index===0)return "Danas";
+ if(index===1)return "Sutra";
+ return new Date(date+"T12:00:00").toLocaleDateString("hr-HR",{weekday:"long"});
+}
+
+async function loadWeather(){
+ const city=document.getElementById("city");
+ const name=city.options[city.selectedIndex].text;
+ const [lat,lon]=city.value.split(",");
+ const content=document.getElementById("content");
+ content.innerHTML='<div class="loading">Dohvaćam najnovije podatke...</div>';
+
+ const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure&hourly=temperature_2m,precipitation_probability,weather_code&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max&timezone=Europe%2FZagreb&forecast_days=7`;
+
+ try{
+  const response=await fetch(url);
+  if(!response.ok)throw new Error("Greška u dohvaćanju podataka");
+  const data=await response.json();
+  const c=data.current;
+  const d=data.daily;
+  const h=data.hourly;
+  const w=weather(c.weather_code);
+  const time=c.time;
+  const hourIndex=h.time.findIndex(t=>t>=time);
+  const hours=h.time.slice(hourIndex,hourIndex+12);
+
+  let hourlyHTML=hours.map((t,i)=>{
+   const idx=hourIndex+i;
+   const wi=weather(h.weather_code[idx]);
+   return `<div class="hour">
+    <small>${t.slice(11,16)}</small>
+    <div class="ico">${wi[1]}</div>
+    <strong>${Math.round(h.temperature_2m[idx])}°</strong>
+    <small style="display:block;margin-top:7px">💧 ${h.precipitation_probability[idx]??0}%</small>
+   </div>`;
+  }).join("");
+
+  let daysHTML=d.time.map((date,i)=>{
+   const wi=weather(d.weather_code[i]);
+   return `<div class="day">
+    <div class="day-name">${dayName(date,i)}</div>
+    <div class="day-icon">${wi[1]}</div>
+    <div class="day-temp">${Math.round(d.temperature_2m_max[i])}° / <span class="muted">${Math.round(d.temperature_2m_min[i])}°</span></div>
+    <div class="day-rain">💧 ${d.precipitation_probability_max[i]??0}%</div>
+   </div>`;
+  }).join("");
+
+  content.innerHTML=`
+   <div class="hero">
+    <div class="city">📍 ${name}</div>
+    <div class="date">${new Date(c.time).toLocaleDateString("hr-HR",{weekday:"long",day:"numeric",month:"long"})}</div>
+    <div class="main-weather">
+     <div>
+      <div class="temp">${Math.round(c.temperature_2m)}°</div>
+      <div class="description">${w[0]}</div>
+      <div class="feels">Osjećaj temperature ${Math.round(c.apparent_temperature)}°</div>
+     </div>
+     <div class="weather-icon">${w[1]}</div>
+    </div>
+    <div class="details">
+     <div class="detail"><div class="detail-label">💨 Vjetar</div><div class="detail-value">${Math.round(c.wind_speed_10m)} km/h</div></div>
+     <div class="detail"><div class="detail-label">🌬️ Udari</div><div class="detail-value">${Math.round(c.wind_gusts_10m)} km/h</div></div>
+     <div class="detail"><div class="detail-label">💧 Vlaga</div><div class="detail-value">${c.relative_humidity_2m}%</div></div>
+     <div class="detail"><div class="detail-label">🌧️ Oborine</div><div class="detail-value">${c.precipitation} mm</div></div>
+     <div class="detail"><div class="detail-label">🧭 Smjer</div><div class="detail-value">${Math.round(c.wind_direction_10m)}°</div></div>
+     <div class="detail"><div class="detail-label">⚖️ Tlak</div><div class="detail-value">${Math.round(c.surface_pressure)} hPa</div></div>
+    </div>
+   </div>
+   <div class="section">
+    <h2>Prognoza po satima</h2>
+    <div class="hourly">${hourlyHTML}</div>
+   </div>
+   <div class="section">
+    <h2>Prognoza za 7 dana</h2>
+    <div class="days">${daysHTML}</div>
+   </div>
+   <button class="refresh" onclick="loadWeather()">↻ Osvježi prognozu</button>
+  `;
+ }catch(error){
+  content.innerHTML='<div class="section error">Nije moguće dohvatiti vremenske podatke. Provjeri internetsku vezu i pokušaj ponovno.</div>';
+ }
+}
+
+loadWeather();
+</script>
+</body>
+</html>
