@@ -141,6 +141,86 @@ function dayName(date,index){
  return new Date(date+"T12:00:00").toLocaleDateString("hr-HR",{weekday:"long"});
 }
 
+function windDirection(degrees) {
+  const directions = [
+    "N","NNE","NE","ENE",
+    "E","ESE","SE","SSE",
+    "S","SSW","SW","WSW",
+    "W","WNW","NW","NNW"
+  ];
+
+  const index = Math.round(degrees / 22.5) % 16;
+
+  return `<span style="display:inline-flex;align-items:center;gap:7px">
+    <span style="display:inline-block;transform:rotate(${degrees}deg);font-size:24px">↑</span>
+    ${directions[index]}
+  </span>`;
+}
+
+function windDirection(degrees) {
+  const directions = [
+    "N","NNE","NE","ENE",
+    "E","ESE","SE","SSE",
+    "S","SSW","SW","WSW",
+    "W","WNW","NW","NNW"
+  ];
+
+  const index = Math.round(degrees / 22.5) % 16;
+
+  return `<span style="display:inline-flex;align-items:center;gap:7px">
+    <span style="display:inline-block;transform:rotate(${degrees}deg);font-size:24px">↑</span>
+    ${directions[index]}
+  </span>`;
+}
+
+function windDirection(degrees) {
+  const directions = [
+    "N","NNE","NE","ENE",
+    "E","ESE","SE","SSE",
+    "S","SSW","SW","WSW",
+    "W","WNW","NW","NNW"
+  ];
+
+  const index = Math.round(degrees / 22.5) % 16;
+
+  return `<span style="display:inline-flex;align-items:center;gap:7px">
+    <span style="display:inline-block;transform:rotate(${degrees}deg);font-size:24px">↑</span>
+    ${directions[index]}
+  </span>`;
+}
+
+function windDirection(degrees) {
+  const directions = [
+    "N","NNE","NE","ENE",
+    "E","ESE","SE","SSE",
+    "S","SSW","SW","WSW",
+    "W","WNW","NW","NNW"
+  ];
+
+  const index = Math.round(degrees / 22.5) % 16;
+
+  return `<span style="display:inline-flex;align-items:center;gap:7px">
+    <span style="display:inline-block;transform:rotate(${degrees}deg);font-size:24px">↑</span>
+    ${directions[index]}
+  </span>`;
+}
+
+function windDirection(degrees) {
+  const directions = [
+    "N","NNE","NE","ENE",
+    "E","ESE","SE","SSE",
+    "S","SSW","SW","WSW",
+    "W","WNW","NW","NNW"
+  ];
+
+  const index = Math.round(degrees / 22.5) % 16;
+
+  return `<span style="display:inline-flex;align-items:center;gap:7px">
+    <span style="display:inline-block;transform:rotate(${degrees}deg);font-size:24px">↑</span>
+    ${directions[index]}
+  </span>`;
+}
+
 async function loadWeather(){
  const city=document.getElementById("city");
  const name=city.options[city.selectedIndex].text;
@@ -200,7 +280,8 @@ async function loadWeather(){
      <div class="detail"><div class="detail-label">🌬️ Udari</div><div class="detail-value">${Math.round(c.wind_gusts_10m)} km/h</div></div>
      <div class="detail"><div class="detail-label">💧 Vlaga</div><div class="detail-value">${c.relative_humidity_2m}%</div></div>
      <div class="detail"><div class="detail-label">🌧️ Oborine</div><div class="detail-value">${c.precipitation} mm</div></div>
-     <div class="detail"><div class="detail-label">🧭 Smjer</div><div class="detail-value">${Math.round(c.wind_direction_10m)}°</div></div>
+     
+<div class="detail"><div class="detail-label">🧭 Smjer</div><div class="detail-value">${windDirection(c.wind_direction_10m)}</div></div>
      <div class="detail"><div class="detail-label">⚖️ Tlak</div><div class="detail-value">${Math.round(c.surface_pressure)} hPa</div></div>
     </div>
    </div>
