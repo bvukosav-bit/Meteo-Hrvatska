@@ -6,6 +6,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#10243c">
 <title>Meteo Hrvatska</title>
+ <link rel="manifest" href="manifest.json">
+<link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon.svg">
 <style>
 *{box-sizing:border-box}
 body{
@@ -218,5 +221,14 @@ async function loadWeather(){
 
 loadWeather();
 </script>
+ <script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js")
+      .then(() => console.log("Meteo Hrvatska je spremna"))
+      .catch(error => console.error("Greška:", error));
+  });
+}
+ </script>
 </body>
 </html>
