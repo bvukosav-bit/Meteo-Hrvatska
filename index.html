@@ -142,6 +142,7 @@ function dayName(date,index){
 }
 
 
+
 function windDirection(degrees) {
   const directions = [
     "N","NNE","NE","ENE",
@@ -150,10 +151,11 @@ function windDirection(degrees) {
     "W","WNW","NW","NNW"
   ];
 
-  const index = Math.round(degrees / 22.5) % 16;
+  const normalizedDegrees = ((Number(degrees) % 360) + 360) % 360;
+  const index = Math.round(normalizedDegrees / 22.5) % 16;
 
-  // Strelica pokazuje odakle vjetar dolazi
-  const arrowDeg = (degrees + 180) % 360;
+  // Strelica pokazuje smjer u kojem vjetar puše
+  const arrowDeg = (normalizedDegrees + 180) % 360;
 
   return `<span style="display:inline-flex;align-items:center;gap:7px">
     <span style="display:inline-block;transform:rotate(${arrowDeg}deg);font-size:24px">↑</span>
