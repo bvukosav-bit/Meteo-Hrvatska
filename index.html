@@ -141,6 +141,7 @@ function dayName(date,index){
  return new Date(date+"T12:00:00").toLocaleDateString("hr-HR",{weekday:"long"});
 }
 
+
 function windDirection(degrees) {
   const directions = [
     "N","NNE","NE","ENE",
@@ -151,11 +152,15 @@ function windDirection(degrees) {
 
   const index = Math.round(degrees / 22.5) % 16;
 
+  // Strelica pokazuje odakle vjetar dolazi
+  const arrowDeg = (degrees + 180) % 360;
+
   return `<span style="display:inline-flex;align-items:center;gap:7px">
-    <span style="display:inline-block;transform:rotate(${degrees}deg);font-size:24px">↑</span>
+    <span style="display:inline-block;transform:rotate(${arrowDeg}deg);font-size:24px">↑</span>
     ${directions[index]}
   </span>`;
 }
+
 
 function windDirection(degrees) {
   const directions = [
