@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="hr">
 <head>
@@ -6,9 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="theme-color" content="#10243c">
 <title>Meteo Hrvatska</title>
- <link rel="manifest" href="manifest.json">
+<link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" href="icon.svg">
+
 <style>
 *{box-sizing:border-box}
 body{
@@ -18,64 +20,149 @@ body{
  color:#f4f7fb;
 }
 .app{max-width:650px;margin:auto;padding:20px}
-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:25px}
+header{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ margin-bottom:25px
+}
 .logo{font-size:20px;font-weight:bold;letter-spacing:1px}
 .logo span{color:#63b7ed}
 .tag{font-size:11px;color:#9db4ca;letter-spacing:2px;margin-top:5px}
 button,select{
- background:#203750;color:white;border:1px solid #34516d;
- border-radius:12px;padding:12px;font-size:15px;
+ background:#203750;
+ color:white;
+ border:1px solid #34516d;
+ border-radius:12px;
+ padding:12px;
+ font-size:15px
 }
 select{width:100%;margin-bottom:18px}
 button{cursor:pointer}
 .hero{
  background:linear-gradient(145deg,#244c70,#142b49);
- border-radius:24px;padding:24px;margin-bottom:18px;
- box-shadow:0 10px 30px #0003;
+ border-radius:24px;
+ padding:24px;
+ margin-bottom:18px;
+ box-shadow:0 10px 30px #0003
 }
 .city{font-size:25px;font-weight:bold}
 .date{color:#c1d5e8;font-size:13px;margin-top:6px}
-.main-weather{display:flex;align-items:center;justify-content:space-between;margin:20px 0}
+.main-weather{
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ margin:20px 0
+}
 .temp{font-size:72px;font-weight:300;letter-spacing:-4px}
 .weather-icon{font-size:65px}
 .description{font-size:18px}
 .feels{color:#c1d5e8;font-size:13px;margin-top:7px}
-.details{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:22px}
-.detail{
- background:#ffffff12;padding:13px 9px;border-radius:13px;
+.details{
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:10px;
+ margin-top:22px
 }
+.detail{background:#ffffff12;padding:13px 9px;border-radius:13px}
 .detail-label{font-size:11px;color:#b8cce0}
 .detail-value{font-size:17px;font-weight:bold;margin-top:8px}
 .section{
- background:#14243a;border-radius:20px;padding:18px;
- margin-bottom:18px;
+ background:#14243a;
+ border-radius:20px;
+ padding:18px;
+ margin-bottom:18px
 }
 .section h2{font-size:17px;margin:0 0 16px}
-.hourly{display:flex;gap:17px;overflow-x:auto;padding-bottom:8px}
-.hour{text-align:center;min-width:57px}
+.hourly{
+ display:flex;
+ gap:15px;
+ overflow-x:auto;
+ padding-bottom:10px
+}
+.hour{
+ text-align:center;
+ min-width:82px;
+ background:#ffffff08;
+ border-radius:12px;
+ padding:10px 5px
+}
 .hour small{color:#a9bfd4;font-size:12px}
-.hour .ico{font-size:25px;margin:12px 0}
-.hour strong{font-size:15px}
-.days{display:flex;flex-direction:column;gap:0}
+.hour .ico{font-size:25px;margin:10px 0}
+.hour strong{font-size:16px}
+.wind-info{
+ margin-top:10px;
+ padding-top:8px;
+ border-top:1px solid #ffffff18;
+ font-size:12px;
+ line-height:1.6
+}
+.wind-arrows{
+ display:inline-flex;
+ align-items:center;
+ justify-content:center;
+ gap:1px;
+ white-space:nowrap;
+ font-size:21px;
+ line-height:1
+}
+.wind-direction{
+ display:flex;
+ align-items:center;
+ justify-content:center;
+ gap:5px;
+ font-size:12px;
+ font-weight:bold;
+ color:#d8e9f8
+}
+.wind-speed{font-weight:bold;color:#fff;font-size:13px}
+.wind-gust{color:#a9bfd4;font-size:11px}
+.days{display:flex;flex-direction:column}
 .day{
- display:grid;grid-template-columns:1fr 35px 45px 65px;
- align-items:center;gap:8px;padding:13px 0;
- border-bottom:1px solid #ffffff12;
+ display:grid;
+ grid-template-columns:1fr 34px 90px 100px;
+ align-items:center;
+ gap:7px;
+ padding:13px 0;
+ border-bottom:1px solid #ffffff12
 }
 .day:last-child{border:0}
-.day-name{font-size:14px}
-.day-icon{font-size:23px;text-align:center}
-.day-temp{text-align:right;font-weight:bold}
+.day-name{font-size:13px}
+.day-icon{font-size:22px;text-align:center}
+.day-temp{text-align:right;font-weight:bold;font-size:14px}
 .day-rain{text-align:right;font-size:11px;color:#82c8ef}
+.day-wind{
+ grid-column:1/-1;
+ display:flex;
+ align-items:center;
+ justify-content:space-between;
+ gap:8px;
+ margin-top:3px;
+ color:#b8cce0;
+ font-size:12px
+}
+.day-wind-main{display:flex;align-items:center;gap:7px}
 .muted{color:#9db4ca}
 .footer{text-align:center;color:#8299af;font-size:11px;padding:10px}
 .error{color:#ffb2a8;font-size:13px;line-height:1.5}
 .loading{text-align:center;padding:20px;color:#a9bfd4}
 .refresh{width:100%;margin-top:12px}
+
+@media(max-width:390px){
+ .app{padding:13px}
+ .hero{padding:18px}
+ .details{gap:7px}
+ .detail{padding:11px 7px}
+ .detail-value{font-size:15px}
+ .day{grid-template-columns:1fr 28px 78px 82px;gap:5px}
+ .day-name{font-size:12px}
+}
 </style>
 </head>
+
 <body>
 <div class="app">
+
 <header>
  <div>
   <div class="logo">☀ METEO <span>HRVATSKA</span></div>
@@ -138,54 +225,56 @@ function weather(code){
 function dayName(date,index){
  if(index===0)return "Danas";
  if(index===1)return "Sutra";
- return new Date(date+"T12:00:00").toLocaleDateString("hr-HR",{weekday:"long"});
+ return new Date(date+"T12:00:00").toLocaleDateString(
+  "hr-HR",{weekday:"long"}
+ );
 }
 
+function windStrength(speed){
+ const thresholds=[
+  1,6,12,20,29,39,50,
+  62,75,89,103,118
+ ];
 
+ const beaufort=thresholds.reduce(
+  (level,limit)=>speed>=limit?level+1:level,0
+ );
 
-function windDirection(degrees) {
-  const directions = [
-    "N","NNE","NE","ENE",
-    "E","ESE","SE","SSE",
-    "S","SSW","SW","WSW",
-    "W","WNW","NW","NNW"
-  ];
+ let arrows=1;
 
-  const normalizedDegrees = ((Number(degrees) % 360) + 360) % 360;
-  const index = Math.round(normalizedDegrees / 22.5) % 16;
+ if(beaufort>=4&&beaufort<=7){
+  arrows=2;
+ }else if(beaufort>=8){
+  arrows=3;
+ }
 
-  // Strelica pokazuje smjer u kojem vjetar puše
-  const arrowDeg = (normalizedDegrees + 180) % 360;
-
-  return `<span style="display:inline-flex;align-items:center;gap:7px">
-    <span style="display:inline-block;transform:rotate(${arrowDeg}deg);font-size:24px">↑</span>
-    ${directions[index]}
-  </span>`;
+ return {beaufort,arrows};
 }
 
-function windStrength(speed) {
-  const thresholds = [
-    1, 6, 12, 20, 29, 39, 50,
-    62, 75, 89, 103, 118
-  ];
+function windDisplay(degrees,speed){
+ const directions=[
+  "N","NNE","NE","ENE",
+  "E","ESE","SE","SSE",
+  "S","SSW","SW","WSW",
+  "W","WNW","NW","NNW"
+ ];
 
-  const beaufort = thresholds.reduce(
-    (level, limit) => speed >= limit ? level + 1 : level,
-    0
-  );
+ const normalized=((Number(degrees)%360)+360)%360;
+ const index=Math.round(normalized/22.5)%16;
+ const arrowDeg=(normalized+180)%360;
+ const strength=windStrength(Number(speed)||0);
 
-  let arrows = 1;
+ const arrows=Array.from(
+  {length:strength.arrows},
+  ()=>`<span style="display:inline-block;transform:rotate(${arrowDeg}deg)">↑</span>`
+ ).join("");
 
-  if (beaufort >= 4 && beaufort <= 7) {
-    arrows = 2;
-  } else if (beaufort >= 8) {
-    arrows = 3;
-  }
-
-  return {
-    beaufort,
-    arrows
-  };
+ return `
+  <span class="wind-direction">
+   <span class="wind-arrows">${arrows}</span>
+   <span>${directions[index]}</span>
+  </span>
+ `;
 }
 
 async function loadWeather(){
@@ -193,81 +282,168 @@ async function loadWeather(){
  const name=city.options[city.selectedIndex].text;
  const [lat,lon]=city.value.split(",");
  const content=document.getElementById("content");
+
  content.innerHTML='<div class="loading">Dohvaćam najnovije podatke...</div>';
 
- 
-const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure&hourly=temperature_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant,wind_gusts_10m_max&wind_speed_unit=kmh&timezone=Europe%2FZagreb&forecast_days=7`;
+ const url=`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,apparent_temperature,is_day,precipitation,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m,surface_pressure&hourly=temperature_2m,precipitation_probability,weather_code,wind_speed_10m,wind_direction_10m,wind_gusts_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,precipitation_sum,wind_speed_10m_max,wind_direction_10m_dominant,wind_gusts_10m_max&wind_speed_unit=kmh&timezone=Europe%2FZagreb&forecast_days=7`;
 
-  
+ try{
+  const response=await fetch(url);
+  if(!response.ok)throw new Error("Greška u dohvaćanju podataka");
+
+  const data=await response.json();
+  const c=data.current;
+  const d=data.daily;
+  const h=data.hourly;
+  const w=weather(c.weather_code);
+
+  const time=c.time;
+  let hourIndex=h.time.findIndex(t=>t>=time);
+  if(hourIndex<0)hourIndex=0;
+
+  const hours=h.time.slice(hourIndex,hourIndex+12);
 
   let hourlyHTML=hours.map((t,i)=>{
    const idx=hourIndex+i;
    const wi=weather(h.weather_code[idx]);
-   return `<div class="hour">
-    <small>${t.slice(11,16)}</small>
-    <div class="ico">${wi[1]}</div>
-    <strong>${Math.round(h.temperature_2m[idx])}°</strong>
-    <small style="display:block;margin-top:7px">💧 ${h.precipitation_probability[idx]??0}%</small>
-   </div>`;
+   const speed=h.wind_speed_10m[idx]??0;
+   const gust=h.wind_gusts_10m[idx]??0;
+   const direction=h.wind_direction_10m[idx]??0;
+
+   return `
+    <div class="hour">
+     <small>${t.slice(11,16)}</small>
+     <div class="ico">${wi[1]}</div>
+     <strong>${Math.round(h.temperature_2m[idx])}°</strong>
+     <small style="display:block;margin-top:7px">
+      💧 ${h.precipitation_probability[idx]??0}%
+     </small>
+     <div class="wind-info">
+      ${windDisplay(direction,speed)}
+      <div class="wind-speed">${Math.round(speed)} km/h</div>
+      <div class="wind-gust">Udari ${Math.round(gust)} km/h</div>
+     </div>
+    </div>
+   `;
   }).join("");
 
   let daysHTML=d.time.map((date,i)=>{
    const wi=weather(d.weather_code[i]);
-   return `<div class="day">
-    <div class="day-name">${dayName(date,i)}</div>
-    <div class="day-icon">${wi[1]}</div>
-    <div class="day-temp">${Math.round(d.temperature_2m_max[i])}° / <span class="muted">${Math.round(d.temperature_2m_min[i])}°</span></div>
-    <div class="day-rain">💧 ${d.precipitation_probability_max[i]??0}%</div>
-   </div>`;
+   const speed=d.wind_speed_10m_max[i]??0;
+   const gust=d.wind_gusts_10m_max[i]??0;
+   const direction=d.wind_direction_10m_dominant[i]??0;
+
+   return `
+    <div class="day">
+     <div class="day-name">${dayName(date,i)}</div>
+     <div class="day-icon">${wi[1]}</div>
+     <div class="day-temp">
+      ${Math.round(d.temperature_2m_max[i])}° /
+      <span class="muted">${Math.round(d.temperature_2m_min[i])}°</span>
+     </div>
+     <div class="day-rain">
+      💧 ${d.precipitation_probability_max[i]??0}%
+     </div>
+     <div class="day-wind">
+      <span class="day-wind-main">
+       ${windDisplay(direction,speed)}
+       <span>Vjetar ${Math.round(speed)} km/h</span>
+      </span>
+      <span class="wind-gust">Udari ${Math.round(gust)} km/h</span>
+     </div>
+    </div>
+   `;
   }).join("");
 
   content.innerHTML=`
    <div class="hero">
     <div class="city">📍 ${name}</div>
-    <div class="date">${new Date(c.time).toLocaleDateString("hr-HR",{weekday:"long",day:"numeric",month:"long"})}</div>
+    <div class="date">
+     ${new Date(c.time).toLocaleDateString("hr-HR",{
+      weekday:"long",day:"numeric",month:"long"
+     })}
+    </div>
+
     <div class="main-weather">
      <div>
       <div class="temp">${Math.round(c.temperature_2m)}°</div>
       <div class="description">${w[0]}</div>
-      <div class="feels">Osjećaj temperature ${Math.round(c.apparent_temperature)}°</div>
+      <div class="feels">
+       Osjećaj temperature ${Math.round(c.apparent_temperature)}°
+      </div>
      </div>
      <div class="weather-icon">${w[1]}</div>
     </div>
+
     <div class="details">
-     <div class="detail"><div class="detail-label">💨 Vjetar</div><div class="detail-value">${Math.round(c.wind_speed_10m)} km/h</div></div>
-     <div class="detail"><div class="detail-label">🌬️ Udari</div><div class="detail-value">${Math.round(c.wind_gusts_10m)} km/h</div></div>
-     <div class="detail"><div class="detail-label">💧 Vlaga</div><div class="detail-value">${c.relative_humidity_2m}%</div></div>
-     <div class="detail"><div class="detail-label">🌧️ Oborine</div><div class="detail-value">${c.precipitation} mm</div></div>
-     
-<div class="detail"><div class="detail-label">🧭 Smjer</div><div class="detail-value">${windDirection(c.wind_direction_10m)}</div></div>
-     <div class="detail"><div class="detail-label">⚖️ Tlak</div><div class="detail-value">${Math.round(c.surface_pressure)} hPa</div></div>
+     <div class="detail">
+      <div class="detail-label">💨 Vjetar</div>
+      <div class="detail-value">${Math.round(c.wind_speed_10m)} km/h</div>
+     </div>
+     <div class="detail">
+      <div class="detail-label">🌬️ Udari</div>
+      <div class="detail-value">${Math.round(c.wind_gusts_10m)} km/h</div>
+     </div>
+     <div class="detail">
+      <div class="detail-label">💧 Vlaga</div>
+      <div class="detail-value">${c.relative_humidity_2m}%</div>
+     </div>
+     <div class="detail">
+      <div class="detail-label">🌧️ Oborine</div>
+      <div class="detail-value">${c.precipitation} mm</div>
+     </div>
+     <div class="detail">
+      <div class="detail-label">🧭 Smjer i jačina</div>
+      <div class="detail-value">
+       ${windDisplay(c.wind_direction_10m,c.wind_speed_10m)}
+      </div>
+     </div>
+     <div class="detail">
+      <div class="detail-label">⚖️ Tlak</div>
+      <div class="detail-value">${Math.round(c.surface_pressure)} hPa</div>
+     </div>
     </div>
    </div>
+
    <div class="section">
     <h2>Prognoza po satima</h2>
     <div class="hourly">${hourlyHTML}</div>
    </div>
+
    <div class="section">
     <h2>Prognoza za 7 dana</h2>
     <div class="days">${daysHTML}</div>
    </div>
-   <button class="refresh" onclick="loadWeather()">↻ Osvježi prognozu</button>
+
+   <button class="refresh" onclick="loadWeather()">
+    ↻ Osvježi prognozu
+   </button>
   `;
+
  }catch(error){
-  content.innerHTML='<div class="section error">Nije moguće dohvatiti vremenske podatke. Provjeri internetsku vezu i pokušaj ponovno.</div>';
+  console.error(error);
+  content.innerHTML=`
+   <div class="section error">
+    Nije moguće dohvatiti vremenske podatke.
+    Provjeri internetsku vezu i pokušaj ponovno.
+   </div>
+  `;
  }
 }
 
 loadWeather();
 </script>
- <script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("./sw.js")
-      .then(() => console.log("Meteo Hrvatska je spremna"))
-      .catch(error => console.error("Greška:", error));
-  });
+
+<script>
+if("serviceWorker" in navigator){
+ window.addEventListener("load",()=>{
+  navigator.serviceWorker.register("./sw.js")
+   .then(()=>console.log("Meteo Hrvatska je spremna"))
+   .catch(error=>console.error("Greška:",error));
+ });
 }
- </script>
+</script>
+
 </body>
 </html>
+ 
