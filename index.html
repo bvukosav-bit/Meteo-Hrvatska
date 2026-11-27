@@ -163,6 +163,31 @@ function windDirection(degrees) {
   </span>`;
 }
 
+function windStrength(speed) {
+  const thresholds = [
+    1, 6, 12, 20, 29, 39, 50,
+    62, 75, 89, 103, 118
+  ];
+
+  const beaufort = thresholds.reduce(
+    (level, limit) => speed >= limit ? level + 1 : level,
+    0
+  );
+
+  let arrows = 1;
+
+  if (beaufort >= 4 && beaufort <= 7) {
+    arrows = 2;
+  } else if (beaufort >= 8) {
+    arrows = 3;
+  }
+
+  return {
+    beaufort,
+    arrows
+  };
+}
+
 async function loadWeather(){
  const city=document.getElementById("city");
  const name=city.options[city.selectedIndex].text;
